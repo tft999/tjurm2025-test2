@@ -1,6 +1,10 @@
 #include "impls.h"
 
 
+
+    // cv::imshow("input", input);
+    // IMPLEMENT YOUR CODE HERE
+    
 std::vector<std::vector<cv::Point>> find_contours(const cv::Mat& input) {
     /**
      * 要求：
@@ -18,6 +22,16 @@ std::vector<std::vector<cv::Point>> find_contours(const cv::Mat& input) {
      */
     
     std::vector<std::vector<cv::Point>> res;
-    // IMPLEMENT YOUR CODE HERE
-    return res;
-}
+    std::vector<cv::Vec4i> hierarchy;
+    cv::cvtColor(input, input, cv::COLOR_BGR2GRAY);
+    cv::threshold(input, input, 50, 255, cv::THRESH_BINARY);
+    cv::findContours(input,res,hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
+    for(int i=0;i<res.size();i++){
+        if(hierarchy[i][3]==-1){
+            cv::drawContours(input, res[i], i, cv::Scalar(255, 255, 255), 2);
+        }
+    }
+    cv::imshow("input", input);
+    return res;}
+  
+    

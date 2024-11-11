@@ -11,6 +11,14 @@ std::pair<cv::Rect, cv::RotatedRect> get_rect_by_contours(const cv::Mat& input) 
      * 运行测试点，你找到的矩形跟答案一样就行。
     */
     std::pair<cv::Rect, cv::RotatedRect> res;
+    std::vector<std::vector<cv::Point>> contours;
+    cv::cvtColor(input,input, cv::COLOR_BGR2GRAY);
+    cv::findContours(input,contours,cv::RETR_EXTERNAL,cv::CHAIN_APPROX_SIMPLE);
+    cv::drawContours(input,contours,-1,cv::Scalar(255,255,255),2);
+    cv::Rect rect = cv::boundingRect(contours[0]);
+    cv::RotatedRect rotatedRect = cv::minAreaRect(contours[0]);
+    res.first = rect;
+    res.second = rotatedRect;
     // IMPLEMENT YOUR CODE HERE
     return res;
 }
